@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Receipt OCR App</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        h1 { color: #333; }
+        input[type=file] { margin-bottom: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Upload Receipt Image</h1>
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Upload & Extract</button>
+    </form>
+
+    {% if json_data %}
+        <h2>Parsed Receipt JSON</h2>
+        <pre>{{ json_data }}</pre>
+
+        <h2>Receipt Items</h2>
+        <table>
+            <tr>
+                {% for col in df_columns %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in df_rows %}
+                <tr>
+                {% for item in row %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>
